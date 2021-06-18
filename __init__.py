@@ -47,6 +47,7 @@ class A:
     def evaluate(self, environment, database, determine_metric_value):
         state = tuple(environment.get_state())
         outcome = database.query_state_with_highest_metric_value(determine_metric_value)
+        print('outcome:', outcome)
         paths = [
             [outcome]
         ]
@@ -59,7 +60,6 @@ class A:
                     if next_path[0] == state:
                         path_to_outcome = next_path
                         actions_to_outcome = self.retrieve_actions_from_path(path_to_outcome)
-                        self.do_actions(environment, actions_to_outcome)
                         return path_to_outcome
                     next_paths.append(next_path)
                 paths = next_paths
@@ -71,7 +71,3 @@ class A:
             action = path[index]
             actions.append(action)
         return actions
-
-    def do_actions(self, environment, actions):
-        for action in actions:
-            environment.do_action(action)
